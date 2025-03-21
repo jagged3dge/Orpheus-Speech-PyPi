@@ -86,7 +86,7 @@ class OrpheusModel:
             #     "repo_id": "canopylabs/orpheus-tts-0.1-finetune-prod",
             # },
             "medium-3b": {
-                "repo_id": "canopylabs/orpheus-tts-0.1-finetune-prod",
+                "repo_id": "canopylabs/orpheus-3b-0.1-ft",
             },
         }
         unsupported_models = ["nano-150m", "micro-400m", "small-1b"]
