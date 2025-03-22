@@ -14,7 +14,7 @@ class OrpheusModel:
         self.engine = self._setup_engine()
         self.available_voices = ["zoe", "zac",
                                  "jess", "leo", "mia", "julia", "leah"]
-        self.tokeniser = AutoTokenizer.from_pretrained(model_name)
+        self.tokeniser = AutoTokenizer.from_pretrained(self.model_name)
 
     def _map_model_params(self, model_name):
         model_map = {
