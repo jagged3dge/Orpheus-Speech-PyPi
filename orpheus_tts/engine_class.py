@@ -4,6 +4,8 @@ from vllm import AsyncLLMEngine, AsyncEngineArgs, SamplingParams
 from transformers import AutoTokenizer
 import threading
 import queue
+
+from vllm.config import CacheConfig, VllmConfig
 from .decoder import tokens_decoder_sync
 
 
@@ -48,10 +50,15 @@ class OrpheusModel:
         engine_args = AsyncEngineArgs(
             model=self.model_name,
             dtype=self.dtype,
-            gpu_memory_utilization=self.gpu_memory_utilization,
-            cpu_offload_gb=self.cpu_offload_gb,
+            
         )
-        return AsyncLLMEngine.from_engine_args(engine_args)
+        engine_config = VllmConfig(
+            cache_config=CacheConfig(
+                gpu_memory_utilization=self.gpu_memory_utilization,
+                cpu_offload_gb=self.cpu_offload_gb,
+            )
+        )
+        return AsyncLLMEngine.from_engine_args(engine_args, engine_config)
 
     def validate_voice(self, voice):
         if voice:
