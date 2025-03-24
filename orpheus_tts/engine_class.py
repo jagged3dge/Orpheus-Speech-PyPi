@@ -43,6 +43,8 @@ class OrpheusModel:
             return model_name
 
     def _setup_engine(self):
+        print(
+            f"Setting up engine with model {self.model_name}, dtype {self.dtype}, gpu_memory_utilization {self.gpu_memory_utilization}, cpu_offload_gb {self.cpu_offload_gb}")
         engine_args = AsyncEngineArgs(
             model=self.model_name,
             dtype=self.dtype,
