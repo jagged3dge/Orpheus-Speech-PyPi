@@ -10,13 +10,13 @@ from .decoder import tokens_decoder_sync
 class OrpheusModel:
     def __init__(self, model_name, dtype=torch.bfloat16, gpu_memory_utilization: float = 0.9, cpu_offload_gb: float = 0):
         self.model_name = self._map_model_params(model_name)
+        self.gpu_memory_utilization = gpu_memory_utilization
+        self.cpu_offload_gb = cpu_offload_gb
         self.dtype = dtype
         self.engine = self._setup_engine()
         self.available_voices = ["zoe", "zac",
                                  "jess", "leo", "mia", "julia", "leah"]
         self.tokeniser = AutoTokenizer.from_pretrained(self.model_name)
-        self.gpu_memory_utilization = gpu_memory_utilization
-        self.cpu_offload_gb = cpu_offload_gb
 
     def _map_model_params(self, model_name):
         model_map = {
