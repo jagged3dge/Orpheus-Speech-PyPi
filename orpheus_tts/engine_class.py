@@ -5,7 +5,7 @@ from transformers import AutoTokenizer
 import threading
 import queue
 
-from vllm.config import CacheConfig, VllmConfig
+from vllm.config import CacheConfig, ModelConfig, VllmConfig
 from .decoder import tokens_decoder_sync
 
 
@@ -53,6 +53,13 @@ class OrpheusModel:
             
         )
         engine_config = VllmConfig(
+            model_config=ModelConfig(
+                model_path=self.model_name,
+                dtype=self.dtype,
+                tokenizer=self.tokeniser,
+                tokenizer_mode="auto",
+                trust_remote_code=True,
+            ),
             cache_config=CacheConfig(
                 block_size=None,
                 swap_space=4,
