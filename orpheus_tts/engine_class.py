@@ -60,7 +60,7 @@ class OrpheusModel:
                 dtype=self.dtype,
                 seed=self.seed,
                 tokenizer=self.tokeniser,
-                tokenizer_mode="auto",
+                tokenizer_mode="custom",
                 trust_remote_code=True,
             ),
             cache_config=CacheConfig(
