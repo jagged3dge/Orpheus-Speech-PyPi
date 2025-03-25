@@ -15,10 +15,10 @@ class OrpheusModel:
         self.gpu_memory_utilization = gpu_memory_utilization
         self.cpu_offload_gb = cpu_offload_gb
         self.dtype = dtype
-        self.engine = self._setup_engine()
         self.available_voices = ["zoe", "zac",
                                  "jess", "leo", "mia", "julia", "leah"]
         self.tokeniser = AutoTokenizer.from_pretrained(self.model_name)
+        self.engine = self._setup_engine()
 
     def _map_model_params(self, model_name):
         model_map = {
