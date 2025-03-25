@@ -10,8 +10,9 @@ from .decoder import tokens_decoder_sync
 
 
 class OrpheusModel:
-    def __init__(self, model_name, dtype=torch.bfloat16, gpu_memory_utilization: float = 0.9, cpu_offload_gb: float = 0):
+    def __init__(self, model_name, seed: int = 0, dtype=torch.bfloat16, gpu_memory_utilization: float = 0.9, cpu_offload_gb: float = 0):
         self.model_name = self._map_model_params(model_name)
+        self.seed = seed
         self.gpu_memory_utilization = gpu_memory_utilization
         self.cpu_offload_gb = cpu_offload_gb
         self.dtype = dtype
@@ -50,15 +51,16 @@ class OrpheusModel:
         engine_args = AsyncEngineArgs(
             model=self.model_name,
             dtype=self.dtype,
-            
+            seed=self.seed,
         )
         engine_config = VllmConfig(
             model_config=ModelConfig(
-                model_path=self.model_name,
+                model=self.model_name,
                 dtype=self.dtype,
                 tokenizer=self.tokeniser,
                 tokenizer_mode="auto",
                 trust_remote_code=True,
+                seed=self.seed,
             ),
             cache_config=CacheConfig(
                 block_size=None,
