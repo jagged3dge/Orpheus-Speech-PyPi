@@ -53,25 +53,25 @@ class OrpheusModel:
             dtype=self.dtype,
             seed=self.seed,
         )
-        engine_config = VllmConfig(
-            model_config=ModelConfig(
-                self.model_name,
-                task="auto",
-                dtype=self.dtype,
-                seed=self.seed,
-                tokenizer=self.tokeniser,
-                tokenizer_mode="custom",
-                trust_remote_code=True,
-            ),
-            cache_config=CacheConfig(
-                block_size=None,
-                swap_space=4,
-                cache_dtype="auto",
-                gpu_memory_utilization=self.gpu_memory_utilization,
-                cpu_offload_gb=self.cpu_offload_gb,
-            )
-        )
-        return AsyncLLMEngine.from_engine_args(engine_args, engine_config)
+        # engine_config = VllmConfig(
+        #     model_config=ModelConfig(
+        #         self.model_name,
+        #         task="auto",
+        #         dtype=self.dtype,
+        #         seed=self.seed,
+        #         tokenizer=self.tokeniser,
+        #         tokenizer_mode="custom",
+        #         trust_remote_code=True,
+        #     ),
+        #     cache_config=CacheConfig(
+        #         block_size=None,
+        #         swap_space=4,
+        #         cache_dtype="auto",
+        #         gpu_memory_utilization=self.gpu_memory_utilization,
+        #         cpu_offload_gb=self.cpu_offload_gb,
+        #     )
+        # )
+        return AsyncLLMEngine.from_engine_args(engine_args) # , engine_config)
 
     def validate_voice(self, voice):
         if voice:
