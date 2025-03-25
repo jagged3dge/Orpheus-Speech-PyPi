@@ -55,12 +55,13 @@ class OrpheusModel:
         )
         engine_config = VllmConfig(
             model_config=ModelConfig(
-                model=self.model_name,
+                self.model_name,
+                task="auto",
                 dtype=self.dtype,
+                seed=self.seed,
                 tokenizer=self.tokeniser,
                 tokenizer_mode="auto",
                 trust_remote_code=True,
-                seed=self.seed,
             ),
             cache_config=CacheConfig(
                 block_size=None,
