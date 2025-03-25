@@ -54,6 +54,9 @@ class OrpheusModel:
         )
         engine_config = VllmConfig(
             cache_config=CacheConfig(
+                block_size=None,
+                swap_space=4,
+                cache_dtype="auto",
                 gpu_memory_utilization=self.gpu_memory_utilization,
                 cpu_offload_gb=self.cpu_offload_gb,
             )
