@@ -73,9 +73,9 @@ class OrpheusModel:
         # )
         return AsyncLLMEngine.from_engine_args(engine_args) # , engine_config)
 
-    def validate_voice(self, voice):
+    def validate_voice(self, voice: str):
         if voice:
-            if voice not in self.engine.available_voices:
+            if voice.lower() not in self.available_voices:
                 raise ValueError(
                     f"Voice {voice} is not available for model {self.model_name}")
 
@@ -86,34 +86,22 @@ class OrpheusModel:
             else:
                 return f"<custom_token_3>{prompt}<custom_token_4><custom_token_5>"
         else:
-            if voice:
-                adapted_prompt = f"{voice}: {prompt}"
-                prompt_tokens = self.tokeniser(
-                    adapted_prompt, return_tensors="pt")
-                # start_token = torch.tensor([[128259]], dtype=torch.int64)
-                start_token = torch.tensor([[128259]])
-                end_tokens = torch.tensor(
-                    # [[128009, 128260, 128261, 128257]], dtype=torch.int64)
-                    [[128009, 128260, 128261, 128257]])
-                all_input_ids = torch.cat(
-                    [start_token, prompt_tokens.input_ids, end_tokens], dim=1)
-                prompt_string = self.tokeniser.decode(all_input_ids[0])
-                return prompt_string
-            else:
-                prompt_tokens = self.tokeniser(prompt, return_tensors="pt")
-                # start_token = torch.tensor([[128259]], dtype=torch.int64)
-                start_token = torch.tensor([[128259]])
-                end_tokens = torch.tensor(
-                    # [[128009, 128260, 128261, 128257]], dtype=torch.int64)
-                    [[128009, 128260, 128261, 128257]])
-                all_input_ids = torch.cat(
-                    [start_token, prompt_tokens.input_ids, end_tokens], dim=1)
-                prompt_string = self.tokeniser.decode(all_input_ids[0])
-                return prompt_string
+            adapted_prompt = f"{voice}: {prompt}" if voice else prompt
+            prompt_tokens = self.tokeniser(
+                adapted_prompt, return_tensors="pt")
+            # start_token = torch.tensor([[128259]], dtype=torch.int64)
+            start_token = torch.tensor([[128259]])
+            end_tokens = torch.tensor(
+                # [[128009, 128260, 128261, 128257]], dtype=torch.int64)
+                [[128009, 128260, 128261, 128257]])
+            all_input_ids = torch.cat(
+                [start_token, prompt_tokens.input_ids, end_tokens], dim=1)
+            prompt_string = self.tokeniser.decode(all_input_ids[0])
+            return prompt_string
 
     def generate_tokens_sync(self, prompt, voice=None, request_id="req-001", temperature=0.6, top_p=0.8, max_tokens=1200, stop_token_ids=[49158], repetition_penalty=1.3):
         prompt_string = self._format_prompt(prompt, voice)
-        print(prompt)
+        print(prompt_string)
         sampling_params = SamplingParams(
             temperature=temperature,
             top_p=top_p,
